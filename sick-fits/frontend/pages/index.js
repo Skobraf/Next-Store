@@ -1,5 +1,5 @@
 import Link from 'next/link';
-const home = props => (
+const Home = props => (
     <div>
         <p>hello</p>
         <Link href="/sell">
@@ -8,4 +8,4 @@ const home = props => (
     </div>
 )
 
-export default home;
+export default Home;
