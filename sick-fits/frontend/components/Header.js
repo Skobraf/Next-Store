@@ -47,8 +47,8 @@ const Header = () => (
                     <a>Sick fits</a>
                 </Link>
             </Logo>
+            <Nav />
         </div>
-        <Nav />
         <div className="sub-bar">
             <p>Search</p>
         </div>
