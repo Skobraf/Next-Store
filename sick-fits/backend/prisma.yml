@@ -1,0 +1,10 @@
+endpoint: https://us1.prisma.sh/next-store/dev
+datamodel: datamodel.prisma
+# secret: ${end:PRISMA_SECRET}
+hooks:
+    post-deploy:
+      - graphql get-schema -p prisma
+
+generate:
+  - generator: typescript-client
+    output: ./generated/prisma-client/
