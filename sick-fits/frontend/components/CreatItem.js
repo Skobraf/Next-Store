@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import Router from 'next/router'
 import Form from './styles/Form';
 import formatMoney from '../lib/formatMoney';
+import Error from './ErrorMessage';
 
 const CREATE_ITEM_MUTATION = gql`
     mutation CREATE_ITEM_MUTATION(
@@ -41,13 +43,20 @@ class CreatItem extends Component {
     render() {
         return (
             <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
-
-            </Mutation>
-            <Form onSubmit={e => {
-                e.preventDefault();
-
+                {(createItem, {loading, error}) => (
+                <Form onSubmit={async e => {
+                    // stop form form submit
+                    e.preventDefault();
+                    // call the mutation
+                    const res = await createItem();
+                    //redirect to single item page
+                    Router.push({
+                        pathname: '/item',
+                        query: {id: res.data.createItem.id}
+                    })
             }}>
-                <fieldset>
+            <Error erro={error} />
+                <fieldset disabled={loading} aria-busy={loading}>
                     <label htmlFor="title">
                         Title
                         <input 
@@ -84,7 +93,10 @@ class CreatItem extends Component {
                         />
                      </label>
                 </fieldset>
-            </Form>
+            </Form> 
+                )}
+            </Mutation>
+         
         );
     }
 }
