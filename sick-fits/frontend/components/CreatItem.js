@@ -3,6 +3,28 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import Form from './styles/Form';
 import formatMoney from '../lib/formatMoney';
+
+const CREATE_ITEM_MUTATION = gql`
+    mutation CREATE_ITEM_MUTATION(
+        $title:String!
+        $description:String!
+        $image:String
+        $largeImage:String
+        $price:Int§
+    ) {
+        CreatItem(
+            title: $title
+            description: $description
+            image: $image
+            largeImage: $largeImage
+            price: $price
+        ) {
+            id
+        }
+    }
+
+`
+
 class CreatItem extends Component {
     state={
         title: '',
@@ -18,7 +40,13 @@ class CreatItem extends Component {
     }
     render() {
         return (
-            <Form>
+            <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
+
+            </Mutation>
+            <Form onSubmit={e => {
+                e.preventDefault();
+
+            }}>
                 <fieldset>
                     <label htmlFor="title">
                         Title
@@ -54,6 +82,7 @@ class CreatItem extends Component {
                         value={this.state.description}
                         onChange={this.handleChange}
                         />
+                     </label>
                 </fieldset>
             </Form>
         );
@@ -61,3 +90,4 @@ class CreatItem extends Component {
 }
 
 export default CreatItem;
+export {CREATE_ITEM_MUTATION};
