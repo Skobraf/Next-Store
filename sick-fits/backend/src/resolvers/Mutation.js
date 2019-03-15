@@ -8,9 +8,6 @@ const Mutations = {
         console.log(item);
         return item;
     }
-   // createDog(parent, args, ctx, info) {
-   //     console.log(args)
-   // }
 };
 
 module.exports = Mutations;
