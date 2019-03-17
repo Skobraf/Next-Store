@@ -10,6 +10,7 @@ class MyApp extends App {
             pageProps = await Component.getInitialProps(ctx);
         }
         // this exposes the query to the user
+        // we will be able to use the queries in all component via props since where are using context
         pageProps.query = ctx.query;
         return { pageProps };
     }
