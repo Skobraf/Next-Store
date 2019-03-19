@@ -1,3 +1,3 @@
-import Home from './index.js'
+import Items  from './index.js'
 
-export default Home;
+export default Items;
