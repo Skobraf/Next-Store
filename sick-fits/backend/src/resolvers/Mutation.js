@@ -40,7 +40,7 @@ const Mutations = {
             data: {
                 ...args,
                 password,
-                permissoins: { set: ['USER']},
+                permissions: { set: ['USER']},
             },
         },
         info
@@ -53,7 +53,7 @@ const Mutations = {
             maxAge: 1000 * 60 * 60 *24 *365, // 1year cooki
         });
         // return the user to the browser
-        return user;
+        return user
     }
 };
 

@@ -5,7 +5,7 @@ import Form from './styles/Form';
 import Error from './ErrorMessage';
 
 const SIGNUP_MUTATION = gql`
-    mutation SIGNUP_MUTATION($email: String!, $name: String!, $password:String!) {
+    mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
         signup(email: $email, name: $name, password: $password) {
             id
             email
@@ -24,15 +24,18 @@ class Signup extends Component {
     }
     render() {
         return (
-            <Mutation mutation={SIGNUP_MUTATION} varibales={this.state}>
+            <Mutation mutation={SIGNUP_MUTATION} variables={this.state}>
                 {(signup, {error, loading}) => {
                     return (
-                         <Form method="post" onSubmit={(e) => {
+                         <Form method="post" onSubmit={async (e) => {
                             e.preventDefault();
-                            signup();
+                            const res = await signup();
+                            console.log(res);
+                            this.setState({name: '', email: '', password: ''})
                          }}>
                             <fieldset disabled={loading} aria-busy={loading}>
                                 <h2>Sign up </h2>
+                                <Error  error={error} />
                                 <label htmlFor="email">
                                     Email
                                     <input type="email" name="email" placeholder="email" value={this.state.email} onChange={this.saveToState} />
