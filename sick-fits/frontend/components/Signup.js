@@ -29,8 +29,7 @@ class Signup extends Component {
                     return (
                          <Form method="post" onSubmit={async (e) => {
                             e.preventDefault();
-                            const res = await signup();
-                            console.log(res);
+                            await signup();
                             this.setState({name: '', email: '', password: ''})
                          }}>
                             <fieldset disabled={loading} aria-busy={loading}>
