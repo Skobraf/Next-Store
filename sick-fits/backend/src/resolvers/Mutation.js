@@ -1,3 +1,6 @@
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 const Mutations = {
     async createItem(parent, args, ctx, info) {
         const item = await ctx.db.mutation.createItem({
@@ -27,6 +30,30 @@ const Mutations = {
         
         //delete item
         return ctx.db.mutation.deleteItem({where}, info);
+    },
+    async signup(parent, args, ctx, info) {
+        args.email = args.email.toLowerCase();
+        // has the pass
+        const password = await bcrypt.hash(args.password, 10);
+        // create user in the db
+        const user = await ctx.db.mutation.createUser({
+            data: {
+                ...args,
+                password,
+                permissoins: { set: ['USER']},
+            },
+        },
+        info
+        );
+        // create the JWT token
+        const token = jwt.sign({userId: user.id }, process.env.APP_SECRET);
+        // set jwt as cookie on the response
+        ctx.response.cookie('token', token, {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 *24 *365, // 1year cooki
+        });
+        // return the user to the browser
+        return user;
     }
 };
 
