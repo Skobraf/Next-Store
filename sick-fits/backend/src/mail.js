@@ -9,4 +9,18 @@ const transport = nodemailer.createTransport({
     }
 });
 
+const makeANiceEmail = text => `
+    <div className="email" style"
+        border: 1px solid black;
+        padding: 20px;
+        font-family: sans-serif;
+        line-height: 2;
+        font-size: 20px;
+    ">
+    <h2>Hello there</h2>
+    <p>Skobraf</p>
+    </div>
+`;
+
 exports.transport = transport;
+exports.makeANiceEmail = makeANiceEmail;
