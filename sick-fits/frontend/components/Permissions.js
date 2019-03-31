@@ -2,6 +2,7 @@ import { Query } from 'react-apollo';
 import Error from './ErrorMessage';
 import gql from 'graphql-tag';
 import Table from './styles/Table';
+import PropTypes from 'prop-types';
 
 const possiblePermissions = [
     'ADMIN',
@@ -47,6 +48,14 @@ const Permission = props => (
 );
 
 class User extends React.Component {
+  static propTypes = {
+    user: PropTypes.shape({
+      name:PropTypes.string,
+      email: PropTypes.string,
+      id: PropTypes.string,
+      permissions: PropTypes.array,
+    }).isRequired
+  }
     render() {
       const user = this.props.user;
       return (
