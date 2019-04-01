@@ -3,6 +3,7 @@ import Error from './ErrorMessage';
 import gql from 'graphql-tag';
 import Table from './styles/Table';
 import PropTypes from 'prop-types';
+import SickButton from 'styles/SickButton';
 
 const possiblePermissions = [
     'ADMIN',
@@ -77,4 +78,4 @@ class User extends React.Component {
     }
   }
 
-export default Permissions
+export default Permission;

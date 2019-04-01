@@ -7,6 +7,7 @@ const PleaseSignIn = props => (
         {({ data, loading }) => {
             if(loading) return <p>Loading...</p>;
             if(!data.me) {
+                console.log(data);
                 return (
                     <div>
                         <p>Please sign in to Continue</p>
@@ -14,6 +15,7 @@ const PleaseSignIn = props => (
                     </div>
                 )
             }
+            return props.children;
         }}
     </Query>
 )
