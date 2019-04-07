@@ -3,7 +3,7 @@ import Error from './ErrorMessage';
 import gql from 'graphql-tag';
 import Table from './styles/Table';
 import PropTypes from 'prop-types';
-import SickButton from 'styles/SickButton';
+import SickButton from './styles/SickButton';
 
 const possiblePermissions = [
     'ADMIN',
@@ -24,31 +24,34 @@ const ALL_USERS_QUERY = gql`
         }
     }
 `;
-const Permission = props => (
+const Permissions = props => (
     <Query query={ ALL_USERS_QUERY }>
-        {({data, loading, error}) => (
-            <div>
-            <Error error={error} />
-            <div>
-              <h2>Manage Permissions</h2>
-              <Table>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    {possiblePermissions.map(permission => <th>{permission}</th>)}
-                    <th>👇🏻</th>
-                  </tr>
-                </thead>
-                <tbody>{data.users.map(user => <User user={user} />)}</tbody>
-              </Table>
-            </div>
-          </div>
-        )}
+        {({data, loading, error}) => {
+          console.log(data);
+            return (
+               <div>
+                <Error error={error} />
+                <div>
+                  <h2>Manage Permissions</h2>
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        {possiblePermissions.map(permission => <th key={permission}>{permission}</th>)}
+                        <th>👇🏻</th>
+                      </tr>
+                    </thead>
+                    <tbody>{data.users.map(user => <UserPermissions user={user} key={user.id} />)}</tbody>
+                  </Table>
+                </div>
+              </div>
+            ) 
+         }}
     </Query>
 );
 
-class User extends React.Component {
+class UserPermissions extends React.Component {
   static propTypes = {
     user: PropTypes.shape({
       name:PropTypes.string,
@@ -57,6 +60,9 @@ class User extends React.Component {
       permissions: PropTypes.array,
     }).isRequired
   }
+  state = {
+    permissions: this.props.user.permissions
+  }
     render() {
       const user = this.props.user;
       return (
@@ -64,9 +70,14 @@ class User extends React.Component {
           <td>{user.name}</td>
           <td>{user.email}</td>
           {possiblePermissions.map(permission => (
-            <td>
+            <td key={permission}>
               <label htmlFor={`${user.id}-permission-${permission}`}>
-                <input type="checkbox" />
+                <input
+                type="checkbox"
+                checked={this.state.permission.includes(permission)}
+                value={permission}
+                onChange={this.handlePermissionChange}
+                 />
               </label>
             </td>
           ))}
@@ -78,4 +89,4 @@ class User extends React.Component {
     }
   }
 
-export default Permission;
+export default Permissions;
